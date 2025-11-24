@@ -1,153 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contact Form</title>
-<style>
-  body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #f7f9fc;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
-  }
-
-  .form-container {
-    background: #fff;
-    padding: 30px 40px;
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-    width: 100%;
-    max-width: 450px;
-  }
-
-  h2 {
-    text-align: center;
-    margin-bottom: 25px;
-    color: #333;
-  }
-
-  .form-group {
-    position: relative;
-    margin-bottom: 25px;
-  }
-
-  input, textarea {
-    width: 100%;
-    padding: 14px 12px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    outline: none;
-    font-size: 16px;
-    background: #fefefe;
-    transition: border-color 0.3s, box-shadow 0.3s;
-  }
-
-  input:focus, textarea:focus {
-    border-color: #5b8df9;
-    box-shadow: 0 0 0 3px rgba(91, 141, 249, 0.2);
-  }
-
-  label {
-    position: absolute;
-    left: 12px;
-    top: 14px;
-    color: #999;
-    font-size: 16px;
-    pointer-events: none;
-    transition: all 0.2s ease-in-out;
-  }
-
-  input:focus + label,
-  input:not(:placeholder-shown) + label,
-  textarea:focus + label,
-  textarea:not(:placeholder-shown) + label {
-    top: -10px;
-    left: 10px;
-    font-size: 12px;
-    color: #5b8df9;
-    background: #fff;
-    padding: 0 4px;
-  }
-
-  button {
-    width: 100%;
-    padding: 14px;
-    background: #5b8df9;
-    border: none;
-    border-radius: 6px;
-    color: #fff;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background 0.3s, transform 0.2s;
-  }
-
-  button:hover {
-    background: #4a73e0;
-    transform: translateY(-2px);
-  }
-
-  .success-message, .error-message {
-    text-align: center;
-    margin-top: 15px;
-    font-size: 14px;
-    display: none;
-  }
-
-  .success-message { color: #28a745; }
-  .error-message { color: #dc3545; }
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Click2Connect — Login</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <main class="container">
+    <h1>Click2Connect</h1>
 
-<div class="form-container">
-  <h2>Contact Us</h2>
-  <form id="contact-form" action="https://formspree.io/f/xjkdgrvo" method="POST">
-    <div class="form-group">
-      <input type="text" name="name" placeholder=" " required>
-      <label>Your Name</label>
+    <div class="card" id="auth-card">
+      <div class="tabs">
+        <button id="tab-login" class="active">Log In</button>
+        <button id="tab-signup">Sign Up</button>
+      </div>
+
+      <!-- Login Form -->
+      <form id="login-form" class="form active">
+        <label>Email
+          <input type="email" id="login-email" required />
+        </label>
+        <label>Password
+          <input type="password" id="login-password" required />
+        </label>
+        <button type="submit">Log In</button>
+        <p class="small">Or <a href="#" id="show-signup-link">create an account</a></p>
+      </form>
+
+      <!-- Signup Form -->
+      <form id="signup-form" class="form">
+        <label>Full name
+          <input type="text" id="signup-name" required />
+        </label>
+        <label>Email
+          <input type="email" id="signup-email" required />
+        </label>
+        <label>Password (min 6 chars)
+          <input type="password" id="signup-password" required minlength="6" />
+        </label>
+        <button type="submit">Create Account</button>
+      </form>
+
+      <div id="feedback" class="feedback"></div>
     </div>
-    <div class="form-group">
-      <input type="email" name="email" placeholder=" " required>
-      <label>Your Email</label>
-    </div>
-    <div class="form-group">
-      <textarea name="message" rows="5" placeholder=" " required></textarea>
-      <label>Your Message</label>
-    </div>
-    <button type="submit">Send Message</button>
-    <p class="success-message">Thanks! Your message has been sent.</p>
-    <p class="error-message">Oops! Something went wrong. Please try again.</p>
-  </form>
-</div>
+  </main>
 
-<script>
-const form = document.getElementById('contact-form');
-const successMsg = document.querySelector('.success-message');
-const errorMsg = document.querySelector('.error-message');
-
-form.addEventListener('submit', async function(event) {
-  event.preventDefault();
-  const formData = new FormData(form);
-  const response = await fetch(form.action, {
-    method: form.method,
-    body: formData,
-    headers: { 'Accept': 'application/json' }
-  });
-
-  if (response.ok) {
-    successMsg.style.display = 'block';
-    errorMsg.style.display = 'none';
-    form.reset();
-  } else {
-    errorMsg.style.display = 'block';
-    successMsg.style.display = 'none';
-  }
-});
-</script>
-
+  <script src="script.js" type="module"></script>
 </body>
 </html>
