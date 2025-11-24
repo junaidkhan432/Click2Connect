@@ -5,10 +5,53 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Click2Connect</title>
 
-  <link rel="stylesheet" href="styles.css">
+  <!-- Styles -->
+  <style>
+    /* Reset */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-  <!-- Google Site Verification -->
-  <meta name="google-site-verification" content="zYxWvUt123456789">
+    /* Body */
+    body { font-family: Arial, sans-serif; line-height: 1.6; background-color: #f8f8f8; color: #333; }
+
+    /* Header */
+    header { background-color: #4CAF50; color: white; padding: 20px 0; text-align: center; }
+    header h1 { margin-bottom: 5px; }
+    header p { font-size: 16px; }
+
+    /* Container */
+    .container { width: 80%; max-width: 800px; margin: 0 auto; }
+
+    /* Sections */
+    section { padding: 30px 0; }
+    h2 { color: #4CAF50; margin-bottom: 15px; }
+
+    /* Form */
+    form label { font-weight: bold; display: block; margin-top: 10px; }
+    form input, form textarea { width: 100%; padding: 10px; margin: 6px 0 12px 0; border-radius: 5px; border: 1px solid #ccc; font-size: 14px; }
+    form button { background-color: #4CAF50; color: white; padding: 12px 20px; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; transition: 0.3s; }
+    form button:hover { background-color: #45a049; }
+
+    /* Links */
+    a { color: #4CAF50; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* Footer */
+    footer { background-color: #333; color: white; text-align: center; padding: 20px 0; margin-top: 30px; }
+
+    /* Notification popup */
+    #orderNotification {
+      position: fixed; top: 20px; right: 20px; background-color: #4CAF50; color: white;
+      padding: 15px 20px; border-radius: 5px; box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+      opacity: 0; pointer-events: none; transition: opacity 0.5s ease, transform 0.5s ease; transform: translateY(-20px); z-index: 1000;
+    }
+    #orderNotification.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
+
+    /* Paragraph spacing */
+    p { margin-bottom: 12px; }
+
+    /* Responsive */
+    @media (max-width: 600px) { .container { width: 95%; padding: 0 10px; } }
+  </style>
 
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-YS0H8K53J4"></script>
@@ -19,7 +62,6 @@
     gtag('config', 'G-YS0H8K53J4');
   </script>
 </head>
-
 <body>
 
   <header>
@@ -55,10 +97,7 @@
         <button type="submit">Send Order</button>
       </form>
 
-      <p>
-        Or message us directly on WhatsApp:
-        <a href="https://wa.me/923249092380" target="_blank">+92 324 9092380</a>
-      </p>
+      <p>Or message us directly on WhatsApp: <a href="https://wa.me/923249092380" target="_blank">+92 324 9092380</a></p>
     </div>
   </section>
 
@@ -77,12 +116,16 @@
     </div>
   </footer>
 
-  <!-- WhatsApp + Email Submit Script -->
+  <!-- Notification popup -->
+  <div id="orderNotification">Your order has been sent! We will contact you via email and WhatsApp soon.</div>
+
+  <!-- Form + WhatsApp JS -->
   <script>
     const form = document.getElementById('orderForm');
+    const notification = document.getElementById('orderNotification');
 
     form.addEventListener('submit', function(event) {
-      event.preventDefault(); // prevent default submission
+      event.preventDefault();
 
       const name = document.getElementById('name').value;
       const email = document.getElementById('email').value;
@@ -95,21 +138,30 @@
         headers: { 'Accept': 'application/json' }
       }).then(() => {
 
-        // Open WhatsApp in new tab with order details
+        // Open WhatsApp in new tab
         const whatsappMessage = encodeURIComponent(
           `📦 New Order Received\n\nName: ${name}\nEmail: ${email}\nOrder Details:\n${message}`
         );
-
         window.open(`https://wa.me/923249092380?text=${whatsappMessage}`, "_blank");
 
-        // Optional: show a confirmation to user
-        alert("Your order has been sent! We will contact you via email and WhatsApp soon.");
+        // Show notification
+        notification.classList.add('show');
+
+        // Hide notification after 4 seconds
+        setTimeout(() => { notification.classList.remove('show'); }, 4000);
 
         // Reset form
         form.reset();
 
       }).catch(() => {
-        alert("Error sending order. Please try again.");
+        notification.textContent = "Error sending order. Please try again.";
+        notification.style.backgroundColor = "#f44336"; // red for error
+        notification.classList.add('show');
+        setTimeout(() => {
+          notification.classList.remove('show');
+          notification.style.backgroundColor = "#4CAF50";
+          notification.textContent = "Your order has been sent! We will contact you via email and WhatsApp soon.";
+        }, 4000);
       });
     });
   </script>
