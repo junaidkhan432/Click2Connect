@@ -1,66 +1,17 @@
-/* Reset some default styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: Arial, sans-serif;
-  line-height: 1.6;
-  background-color: #f8f8f8;
-  color: #333;
-}
-
-/* Welcome message styling */
-.welcome-message {
-  background-color: #ffeb3b;
-  color: #333;
-  text-align: center;
-  padding: 15px 0;
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.welcome-message .owner-name {
-  font-weight: 900; /* extra bold for your name */
-  color: #4CAF50;   /* green color to highlight */
-}
-
-/* Header styling */
-header {
-  background-color: #4CAF50;
-  color: white;
-  padding: 20px 0;
-  text-align: center;
-}
-
-.container {
-  width: 80%;
-  margin: 0 auto;
-}
-
-section {
-  padding: 20px 0;
-}
-
-button {
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #45a049;
-}
-
-a {
-  color: #4CAF50;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
+:root { --bg:#f7f7f8; --card:#fff; --accent:#2b6cb0; --text:#222; }
+* { box-sizing: border-box; }
+body { font-family: Arial, sans-serif; background:var(--bg); color:var(--text); margin:0; padding:0; min-height:100vh; display:flex; align-items:center; justify-content:center; }
+.container { width:100%; max-width:420px; padding:20px; }
+h1 { text-align:center; margin-bottom:18px; }
+.card { background:var(--card); padding:18px; border-radius:10px; box-shadow:0 6px 18px rgba(0,0,0,0.06); }
+.tabs { display:flex; gap:6px; margin-bottom:12px; }
+.tabs button { flex:1; padding:8px; border-radius:8px; border:1px solid #eee; background:#fafafa; cursor:pointer; }
+.tabs button.active { background:var(--accent); color:white; border-color:var(--accent);}
+.form { display:none; }
+.form.active { display:block; }
+.form label { display:block; margin-bottom:8px; font-size:14px; }
+.form input { width:100%; padding:8px; margin-top:6px; border-radius:6px; border:1px solid #ddd; }
+button[type="submit"], #btn-logout { width:100%; padding:10px; margin-top:8px; border:none; border-radius:8px; background:var(--accent); color:#fff; cursor:pointer; }
+.feedback { margin-top:10px; color:#b00020; min-height:20px; font-size:14px; }
+.small { font-size:13px; margin-top:8px; }
+a { color:var(--accent); text-decoration:none; }
