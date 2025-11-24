@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Click2Connect</title>
+
   <link rel="stylesheet" href="styles.css">
 
   <!-- Google Site Verification -->
-  <meta name="google-site-verification" content="zYxWvUt123456789" />
+  <meta name="google-site-verification" content="zYxWvUt123456789">
 
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-YS0H8K53J4"></script>
@@ -17,8 +18,22 @@
     gtag('js', new Date());
     gtag('config', 'G-YS0H8K53J4');
   </script>
+
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f6f6f6; }
+    header, footer { background: #333; color: white; padding: 20px 0; text-align: center; }
+    .container { width: 90%; max-width: 800px; margin: auto; padding: 20px; }
+    h1, h2 { color: #333; }
+    form label { font-weight: bold; }
+    form input, form textarea { width: 100%; padding: 10px; margin: 6px 0 12px; border-radius: 5px; border: 1px solid #ccc; }
+    button { background: #007bff; color: white; padding: 12px 20px; border: none; cursor: pointer; border-radius: 6px; }
+    button:hover { background: #0056b3; }
+  </style>
+
 </head>
+
 <body>
+
   <header>
     <div class="container">
       <h1>Click2Connect</h1>
@@ -26,28 +41,41 @@
     </div>
   </header>
 
+  <!-- About Section -->
   <section id="about">
     <div class="container">
       <h2>About</h2>
-      <p>Welcome to Click2Connect! Here you can place orders and contact us directly through email or WhatsApp. We ensure fast response and reliable communication.</p>
+      <p>Welcome to Click2Connect! You can place orders and contact us through email or WhatsApp. We ensure fast and reliable communication.</p>
     </div>
   </section>
 
+  <!-- Order Section -->
   <section id="order">
     <div class="container">
       <h2>Place an Order</h2>
-      <form action="https://formspree.io/f/your-form-id" method="POST">
-        <label>Name:<br/><input type="text" name="name" required></label><br/>
-        <label>Email:<br/><input type="email" name="_replyto" required></label><br/>
-        <label>Order details:<br/><textarea name="message" required></textarea></label><br/>
+
+      <form id="orderForm" action="https://formspree.io/f/your-form-id" method="POST">
+
+        <label>Name:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label>Email:</label>
+        <input type="email" id="email" name="_replyto" required>
+
+        <label>Order Details:</label>
+        <textarea id="message" name="message" required></textarea>
+
         <button type="submit">Send Order</button>
       </form>
-      <p>Or message us directly on WhatsApp: 
+
+      <p>
+        Or message us directly on WhatsApp:
         <a href="https://wa.me/923249092380" target="_blank">+92 324 9092380</a>
       </p>
     </div>
   </section>
 
+  <!-- Contact Section -->
   <section id="contact">
     <div class="container">
       <h2>Contact</h2>
@@ -61,5 +89,35 @@
       <p>&copy; 2025 Click2Connect</p>
     </div>
   </footer>
+
+  <!-- WhatsApp + Email Submit Script -->
+  <script>
+    const form = document.getElementById('orderForm');
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault(); 
+
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const message = document.getElementById('message').value;
+
+      fetch(form.action, {
+        method: "POST",
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      }).then(() => {
+
+        const whatsappMessage = encodeURIComponent(
+          `📦 New Order Received\n\nName: ${name}\nEmail: ${email}\nOrder Details:\n${message}`
+        );
+
+        window.location.href = `https://wa.me/923249092380?text=${whatsappMessage}`;
+
+      }).catch(() => {
+        alert("Error sending order. Please try again.");
+      });
+    });
+  </script>
+
 </body>
 </html>
