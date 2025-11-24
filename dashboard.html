@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dashboard — Click2Connect</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="container">
+    <h1>Dashboard</h1>
+    <div class="card">
+      <p id="welcome">Welcome — loading...</p>
+      <button id="btn-logout">Log Out</button>
+    </div>
+  </main>
+
+  <script type="module">
+    // This file uses Firebase just to check current user.
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+
+    // ====== PASTE YOUR FIREBASE CONFIG BELOW (same one you used in script.js) ======
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      projectId: "YOUR_PROJECT_ID",
+      // rest...
+    };
+    // ================================================================================
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const welcomeEl = document.getElementById('welcome');
+    const btnLogout = document.getElementById('btn-logout');
+
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        const name = user.displayName || user.email;
+        welcomeEl.textContent = `Hello, ${name}!`;
+      } else {
+        // not logged in -> go back to login page
+        window.location.replace("index.html");
+      }
+    });
+
+    btnLogout.addEventListener('click', async () => {
+      await signOut(auth);
+      window.location.replace("index.html");
+    });
+  </script>
+</body>
+</html>
