@@ -1,170 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Click2Connect</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Form</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f7f9fc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
 
-  <!-- Styles -->
-  <style>
-    /* Reset */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+  .form-container {
+    background: #fff;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 450px;
+  }
 
-    /* Body */
-    body { font-family: Arial, sans-serif; line-height: 1.6; background-color: #f8f8f8; color: #333; }
+  h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+  }
 
-    /* Header */
-    header { background-color: #4CAF50; color: white; padding: 20px 0; text-align: center; }
-    header h1 { margin-bottom: 5px; }
-    header p { font-size: 16px; }
+  .form-group {
+    position: relative;
+    margin-bottom: 25px;
+  }
 
-    /* Container */
-    .container { width: 80%; max-width: 800px; margin: 0 auto; }
+  input, textarea {
+    width: 100%;
+    padding: 14px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    font-size: 16px;
+    background: #fefefe;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
 
-    /* Sections */
-    section { padding: 30px 0; }
-    h2 { color: #4CAF50; margin-bottom: 15px; }
+  input:focus, textarea:focus {
+    border-color: #5b8df9;
+    box-shadow: 0 0 0 3px rgba(91, 141, 249, 0.2);
+  }
 
-    /* Form */
-    form label { font-weight: bold; display: block; margin-top: 10px; }
-    form input, form textarea { width: 100%; padding: 10px; margin: 6px 0 12px 0; border-radius: 5px; border: 1px solid #ccc; font-size: 14px; }
-    form button { background-color: #4CAF50; color: white; padding: 12px 20px; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; transition: 0.3s; }
-    form button:hover { background-color: #45a049; }
+  label {
+    position: absolute;
+    left: 12px;
+    top: 14px;
+    color: #999;
+    font-size: 16px;
+    pointer-events: none;
+    transition: all 0.2s ease-in-out;
+  }
 
-    /* Links */
-    a { color: #4CAF50; text-decoration: none; }
-    a:hover { text-decoration: underline; }
+  input:focus + label,
+  input:not(:placeholder-shown) + label,
+  textarea:focus + label,
+  textarea:not(:placeholder-shown) + label {
+    top: -10px;
+    left: 10px;
+    font-size: 12px;
+    color: #5b8df9;
+    background: #fff;
+    padding: 0 4px;
+  }
 
-    /* Footer */
-    footer { background-color: #333; color: white; text-align: center; padding: 20px 0; margin-top: 30px; }
+  button {
+    width: 100%;
+    padding: 14px;
+    background: #5b8df9;
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+  }
 
-    /* Notification popup */
-    #orderNotification {
-      position: fixed; top: 20px; right: 20px; background-color: #4CAF50; color: white;
-      padding: 15px 20px; border-radius: 5px; box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-      opacity: 0; pointer-events: none; transition: opacity 0.5s ease, transform 0.5s ease; transform: translateY(-20px); z-index: 1000;
-    }
-    #orderNotification.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
+  button:hover {
+    background: #4a73e0;
+    transform: translateY(-2px);
+  }
 
-    /* Paragraph spacing */
-    p { margin-bottom: 12px; }
+  .success-message, .error-message {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+    display: none;
+  }
 
-    /* Responsive */
-    @media (max-width: 600px) { .container { width: 95%; padding: 0 10px; } }
-  </style>
-
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YS0H8K53J4"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-YS0H8K53J4');
-  </script>
+  .success-message { color: #28a745; }
+  .error-message { color: #dc3545; }
+</style>
 </head>
 <body>
 
-  <header>
-    <div class="container">
-      <h1>Click2Connect</h1>
-      <p>Place orders and contact us easily!</p>
+<div class="form-container">
+  <h2>Contact Us</h2>
+  <form id="contact-form" action="https://formspree.io/f/xjkdgrvo" method="POST">
+    <div class="form-group">
+      <input type="text" name="name" placeholder=" " required>
+      <label>Your Name</label>
     </div>
-  </header>
-
-  <!-- About Section -->
-  <section id="about">
-    <div class="container">
-      <h2>About</h2>
-      <p>Welcome to Click2Connect! You can place orders and contact us through email or WhatsApp. We ensure fast and reliable communication.</p>
+    <div class="form-group">
+      <input type="email" name="email" placeholder=" " required>
+      <label>Your Email</label>
     </div>
-  </section>
-
-  <!-- Order Section -->
-  <section id="order">
-    <div class="container">
-      <h2>Place an Order</h2>
-
-      <form id="orderForm" action="https://formspree.io/f/your-form-id" method="POST">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
-
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="_replyto" required>
-
-        <label for="message">Order Details:</label>
-        <textarea id="message" name="message" required></textarea>
-
-        <button type="submit">Send Order</button>
-      </form>
-
-      <p>Or message us directly on WhatsApp: <a href="https://wa.me/923249092380" target="_blank">+92 324 9092380</a></p>
+    <div class="form-group">
+      <textarea name="message" rows="5" placeholder=" " required></textarea>
+      <label>Your Message</label>
     </div>
-  </section>
+    <button type="submit">Send Message</button>
+    <p class="success-message">Thanks! Your message has been sent.</p>
+    <p class="error-message">Oops! Something went wrong. Please try again.</p>
+  </form>
+</div>
 
-  <!-- Contact Section -->
-  <section id="contact">
-    <div class="container">
-      <h2>Contact</h2>
-      <p>Email: <a href="mailto:junaidkhan432211@gmail.com">junaidkhan432211@gmail.com</a></p>
-      <p>WhatsApp: <a href="https://wa.me/923249092380" target="_blank">Chat on WhatsApp</a></p>
-    </div>
-  </section>
+<script>
+const form = document.getElementById('contact-form');
+const successMsg = document.querySelector('.success-message');
+const errorMsg = document.querySelector('.error-message');
 
-  <footer>
-    <div class="container">
-      <p>&copy; 2025 Click2Connect</p>
-    </div>
-  </footer>
+form.addEventListener('submit', async function(event) {
+  event.preventDefault();
+  const formData = new FormData(form);
+  const response = await fetch(form.action, {
+    method: form.method,
+    body: formData,
+    headers: { 'Accept': 'application/json' }
+  });
 
-  <!-- Notification popup -->
-  <div id="orderNotification">Your order has been sent! We will contact you via email and WhatsApp soon.</div>
-
-  <!-- Form + WhatsApp JS -->
-  <script>
-    const form = document.getElementById('orderForm');
-    const notification = document.getElementById('orderNotification');
-
-    form.addEventListener('submit', function(event) {
-      event.preventDefault();
-
-      const name = document.getElementById('name').value;
-      const email = document.getElementById('email').value;
-      const message = document.getElementById('message').value;
-
-      // Send email via Formspree
-      fetch(form.action, {
-        method: "POST",
-        body: new FormData(form),
-        headers: { 'Accept': 'application/json' }
-      }).then(() => {
-
-        // Open WhatsApp in new tab
-        const whatsappMessage = encodeURIComponent(
-          `📦 New Order Received\n\nName: ${name}\nEmail: ${email}\nOrder Details:\n${message}`
-        );
-        window.open(`https://wa.me/923249092380?text=${whatsappMessage}`, "_blank");
-
-        // Show notification
-        notification.classList.add('show');
-
-        // Hide notification after 4 seconds
-        setTimeout(() => { notification.classList.remove('show'); }, 4000);
-
-        // Reset form
-        form.reset();
-
-      }).catch(() => {
-        notification.textContent = "Error sending order. Please try again.";
-        notification.style.backgroundColor = "#f44336"; // red for error
-        notification.classList.add('show');
-        setTimeout(() => {
-          notification.classList.remove('show');
-          notification.style.backgroundColor = "#4CAF50";
-          notification.textContent = "Your order has been sent! We will contact you via email and WhatsApp soon.";
-        }, 4000);
-      });
-    });
-  </script>
+  if (response.ok) {
+    successMsg.style.display = 'block';
+    errorMsg.style.display = 'none';
+    form.reset();
+  } else {
+    errorMsg.style.display = 'block';
+    successMsg.style.display = 'none';
+  }
+});
+</script>
 
 </body>
 </html>
